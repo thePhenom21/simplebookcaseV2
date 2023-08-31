@@ -10,34 +10,14 @@ class BooksPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Box? books = ref.watch(hiveBoxProvider).when(
-      data: (data) {
-        return data;
-      },
-      error: (error, stackTrace) {
-        return null;
-      },
-      loading: () {
-        return null;
-      },
-    );
-    Box? shelves = ref.watch(shelfProvider).when(
-      data: (data) {
-        return data;
-      },
-      error: (error, stackTrace) {
-        return null;
-      },
-      loading: () {
-        return null;
-      },
-    );
+    Box books = Hive.box("books");
+    Box shelves = Hive.box("shelves");
     return Scaffold(
       body: GroupListView(
         itemBuilder: (context, index) {
-          String _currentBook = books!.getAt(index.index);
+          BookModel? _currentBook = books?.getAt(index.index);
           return Card(
-            child: Row(children: [Text("${_currentBook}")]),
+            child: Row(children: [Text("${_currentBook?.author ?? "null"}")]),
           );
         },
         sectionsCount: 1,

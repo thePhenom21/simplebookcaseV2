@@ -1,7 +1,8 @@
-import 'package:google_books/models/Book.dart';
 import 'package:hive/hive.dart';
 
-@HiveType(typeId: 2)
+part 'book_model.g.dart';
+
+@HiveType(typeId: 1)
 class BookModel {
   @HiveField(0)
   String shelf = "";

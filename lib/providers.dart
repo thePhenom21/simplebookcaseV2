@@ -13,13 +13,3 @@ StateProvider<ThemeData> themeProvider =
 
 StateProvider<Icon> iconProvider =
     StateProvider((ref) => Icon(Icons.light_mode));
-
-FutureProvider<Box> hiveBoxProvider = FutureProvider((ref) async {
-  Box a = await Hive.openBox("books");
-  a.add("k");
-  return a;
-});
-
-FutureProvider<Box> shelfProvider = FutureProvider((ref) async {
-  return await Hive.openBox("shelves");
-});

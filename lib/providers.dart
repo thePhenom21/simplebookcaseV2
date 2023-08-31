@@ -13,3 +13,27 @@ StateProvider<ThemeData> themeProvider =
 
 StateProvider<Icon> iconProvider =
     StateProvider((ref) => Icon(Icons.light_mode));
+
+StateProvider<Box> booksProvider = StateProvider((ref) => Hive.box("books"));
+
+StateProvider<Box> shelfProvider = StateProvider((ref) => Hive.box("shelves"));
+
+StateProvider<BookModel?> addedBook = StateProvider((ref) => null);
+
+StateProvider<TextEditingController> controller_title =
+    StateProvider((ref) => TextEditingController());
+
+StateProvider<TextEditingController> controller_author =
+    StateProvider((ref) => TextEditingController());
+
+StateProvider<TextEditingController> controller_description =
+    StateProvider((ref) => TextEditingController());
+
+StateProvider<TextEditingController> controller_publisher =
+    StateProvider((ref) => TextEditingController());
+
+StateProvider<TextEditingController> controller_shelf =
+    StateProvider((ref) => TextEditingController());
+
+StateProvider<TextEditingController> controller_page =
+    StateProvider((ref) => TextEditingController());

@@ -12,9 +12,10 @@ void main() async {
   final document = await getApplicationDocumentsDirectory();
   await Hive.initFlutter(document.path);
   Hive.registerAdapter(BookModelAdapter());
-  await Hive.openBox("books");
-  await Hive.openBox("shelves");
-  await Hive.box("books").add(BookModel("a", "bdsa", "cdasdsa", "d", "e", 45));
+  Box bookBox = await Hive.openBox("books");
+  Box shelveBox = await Hive.openBox("shelves");
+  bookBox.clear();
+  shelveBox.clear();
   runApp(const ProviderScope(child: App()));
 }
 

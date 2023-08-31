@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sbcv2/pages/books_page.dart';
 import 'package:sbcv2/pages/search_page.dart';
+import 'package:sbcv2/providers.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+class _HomePageState extends ConsumerState<HomePage>
+    with TickerProviderStateMixin {
   TabController? tabController;
   //mixin needed for tab contoller vsync property
 
@@ -22,6 +25,29 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                if (ref.watch(themeProvider) == ThemeData.dark()) {
+                  ref
+                      .read(themeProvider.notifier)
+                      .update((state) => ThemeData.light());
+                  ref
+                      .read(iconProvider.notifier)
+                      .update((state) => Icon(Icons.dark_mode));
+                } else {
+                  ref
+                      .read(themeProvider.notifier)
+                      .update((state) => ThemeData.dark());
+                  ref
+                      .read(iconProvider.notifier)
+                      .update((state) => Icon(Icons.light_mode));
+                }
+              },
+              icon: ref.watch(iconProvider))
+        ],
+      ),
       body: TabBarView(
         controller: tabController,
         children: [BooksPage(), SearchPage()],

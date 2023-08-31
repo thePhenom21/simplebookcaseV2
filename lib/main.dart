@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sbcv2/pages/home_page.dart';
 import 'package:sbcv2/providers.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
   runApp(const ProviderScope(child: App()));
 }
 

@@ -7,6 +7,7 @@ import 'package:sbcv2/providers.dart';
 
 void main() async {
   await Hive.initFlutter();
+
   runApp(const ProviderScope(child: App()));
 }
 

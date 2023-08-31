@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_books/models/Book.dart';
 import 'package:hive/hive.dart';
 import 'package:sbcv2/models/book_model.dart';
 
@@ -15,17 +14,12 @@ StateProvider<ThemeData> themeProvider =
 StateProvider<Icon> iconProvider =
     StateProvider((ref) => Icon(Icons.light_mode));
 
-StateProvider hiveBoxProvider = StateProvider((ref) async {
-  if (!await Hive.boxExists("books")) {
-    return Hive.openBox("books");
-  } else {
-    return Hive.box("books");
-  }
+FutureProvider<Box> hiveBoxProvider = FutureProvider((ref) async {
+  Box a = await Hive.openBox("books");
+  a.add("k");
+  return a;
 });
 
-StateProvider shelfProvider = StateProvider((ref) async {
-  if (!await Hive.boxExists("shelves")) {
-    return Hive.openBox("shelves");
-  }
-  return Hive.box("shelves");
+FutureProvider<Box> shelfProvider = FutureProvider((ref) async {
+  return await Hive.openBox("shelves");
 });

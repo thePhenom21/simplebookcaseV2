@@ -20,8 +20,10 @@ class BooksPage extends ConsumerWidget {
       },
       itemBuilder: (context, element) {
         return GestureDetector(
-          onTap: () {
-            Hive.box("books").deleteAt(books.values.toList().indexOf(element));
+          onTap: () async {
+            int index = books.values.toList().indexOf(element);
+            await Hive.box("books").deleteAt(index);
+            ref.read(deletedBook.notifier).update((state) => element);
           },
           child: Card(
               child: Text(

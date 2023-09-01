@@ -27,6 +27,7 @@ class _HomePageState extends ConsumerState<HomePage>
   @override
   Widget build(BuildContext context) {
     BookModel? book = ref.watch(currentBook);
+    BookModel? deleted = ref.watch(deletedBook);
     return Scaffold(
       floatingActionButton: FloatingActionButton.small(
         onPressed: () async {

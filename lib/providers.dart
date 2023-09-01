@@ -20,6 +20,8 @@ StateProvider<Box> shelfProvider = StateProvider((ref) => Hive.box("shelves"));
 
 StateProvider<BookModel?> currentBook = StateProvider((ref) => null);
 
+StateProvider<BookModel?> deletedBook = StateProvider((ref) => null);
+
 StateProvider<TextEditingController> controller_title =
     StateProvider((ref) => TextEditingController());
 

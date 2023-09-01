@@ -19,9 +19,14 @@ class BooksPage extends ConsumerWidget {
         return Text((element as BookModel).shelf);
       },
       itemBuilder: (context, element) {
-        return Card(
-            child: Text(
-                "Title: ${element.title}        Publisher: ${element.publisher} \nAuthor: ${element.author}                 Page Count:${element.pageCount}\nDescription:${element.description}"));
+        return GestureDetector(
+          onTap: () {
+            Hive.box("books").deleteAt(books.values.toList().indexOf(element));
+          },
+          child: Card(
+              child: Text(
+                  "Title: ${element.title}        Publisher: ${element.publisher} \nAuthor: ${element.author}                 Page Count:${element.pageCount}\nDescription:${element.description}")),
+        );
       },
       elements: books.values.toList(),
       groupBy: (element) {

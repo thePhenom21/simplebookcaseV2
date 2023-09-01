@@ -26,10 +26,11 @@ class _HomePageState extends ConsumerState<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    BookModel? book = ref.watch(currentBook);
     return Scaffold(
       floatingActionButton: FloatingActionButton.small(
         onPressed: () async {
-          showDialog(
+          await showDialog(
             context: context,
             builder: (context) {
               return BookDialog();
@@ -95,15 +96,15 @@ class _HomePageState extends ConsumerState<HomePage>
 class BookDialog extends ConsumerWidget {
   BookDialog({super.key});
 
+  final controller_t = TextEditingController();
+  final controller_a = TextEditingController();
+  final controller_d = TextEditingController();
+  final controller_publish = TextEditingController();
+  final controller_s = TextEditingController();
+  final controller_pa = TextEditingController();
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller_t = ref.watch(controller_title);
-    final controller_a = ref.watch(controller_author);
-    final controller_d = ref.watch(controller_description);
-    final controller_publish = ref.watch(controller_publisher);
-    final controller_s = ref.watch(controller_shelf);
-    final controller_pa = ref.watch(controller_page);
-
     return AlertDialog(
       content: SizedBox(
         height: MediaQuery.of(context).size.height / 2,
@@ -144,26 +145,14 @@ class BookDialog extends ConsumerWidget {
                         controller_t.value.text,
                         controller_publish.value.text,
                         controller_s.value.text,
-                        int.parse(controller_pa.value.text, radix: 10));
-                    ref.read(controller_author.notifier).update((state) {
-                      return TextEditingController();
-                    });
-                    ref.read(controller_title.notifier).update((state) {
-                      return TextEditingController();
-                    });
-                    ref.read(controller_description.notifier).update((state) {
-                      return TextEditingController();
-                    });
-                    ref.read(controller_publisher.notifier).update((state) {
-                      return TextEditingController();
-                    });
-                    ref.read(controller_page.notifier).update((state) {
-                      return TextEditingController();
-                    });
-                    ref.read(controller_shelf.notifier).update((state) {
-                      return TextEditingController();
-                    });
-                    addBook(book, ref);
+                        int.parse(controller_pa.value.text));
+                    await addBook(book, ref);
+                    controller_a.clear();
+                    controller_d.clear();
+                    controller_pa.clear();
+                    controller_publish.clear();
+                    controller_t.clear();
+                    controller_s.clear();
                   } catch (err) {
                     print(err);
                   }
@@ -177,15 +166,12 @@ class BookDialog extends ConsumerWidget {
 }
 
 Future<int> addBook(BookModel book, WidgetRef ref) async {
-  ref.read(booksProvider.notifier).update((state) {
-    state.add(book);
-    return state;
-  });
-  for (BookModel shelf in ref.read(booksProvider).values) {
-    ref.read(shelfProvider.notifier).update((state) {
-      state.add(shelf.shelf);
-      return state;
-    });
+  await Hive.box("books").add(book);
+  for (BookModel b in Hive.box("books").values) {
+    if (!Hive.box("shelves").values.contains(b.shelf)) {
+      await Hive.box("shelves").add(b.shelf);
+    }
   }
+  ref.read(currentBook.notifier).update((state) => book);
   return 0;
 }

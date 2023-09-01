@@ -18,7 +18,7 @@ StateProvider<Box> booksProvider = StateProvider((ref) => Hive.box("books"));
 
 StateProvider<Box> shelfProvider = StateProvider((ref) => Hive.box("shelves"));
 
-StateProvider<BookModel?> addedBook = StateProvider((ref) => null);
+StateProvider<BookModel?> currentBook = StateProvider((ref) => null);
 
 StateProvider<TextEditingController> controller_title =
     StateProvider((ref) => TextEditingController());

@@ -37,3 +37,6 @@ StateProvider<TextEditingController> controller_shelf =
 
 StateProvider<TextEditingController> controller_page =
     StateProvider((ref) => TextEditingController());
+
+StateProvider<List<BookModel>> searchedBookProvider =
+    StateProvider((ref) => []);
